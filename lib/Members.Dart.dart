@@ -103,9 +103,30 @@ class _RegisterNewMemberState extends State {
             TextFormField(
               keyboardType: TextInputType.number,
               validator: (String? idValue) {
-
-              }
+                if (idValue!.length <= 4 ) {
+                  return("ID length must be greater than 4");
+                }
+                return null;
+              },
+              onSaved: (String? idValue){
+                this._memberData.idNo=idValue;
+              },
+              decoration: InputDecoration(
+                labelText: "Id/Passport No:",
+                hintText: "Enter Natioonal Id/Passport No:",
+              ),
             ),
+            RaisedButton.icon(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    _formKey.currentState!.save();
+                    print("You  have Succssefuly registerd member No: \n ${_memberData.memberNo}");
+                  }
+                },
+              icon: Icon(Icons.post_add_outlined),
+              label: Text("Register Member"),
+                ),
+
           ],
         ),
 
