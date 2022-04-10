@@ -1,4 +1,7 @@
+// ignore_for_file: non_constant_identifier_names, prefer_typing_uninitialized_variables, unnecessary_this, duplicate_ignore, avoid_print, prefer_final_fields, unnecessary_new
+
 import 'package:flutter/material.dart';
+import 'package:saccoke/ErrorStrings.dart';
 class Members extends StatelessWidget {
   const Members({Key? key}) : super(key: key);
 
@@ -12,7 +15,19 @@ class MemberData{
   String firstName ="";
   String middleName ="";
   String lastName = "";
+  var JoinDate = DateTime.now();
   var idNo;
+  var email;
+
+  /*
+  static ValidateLoanMaturity(var memberNo){
+    if ( this.JoinDate -  (DateTime.now())){
+
+    }
+  }
+
+   */
+
 }
 class RegisterNewMember extends StatefulWidget {
   const RegisterNewMember({Key? key}) : super(key: key);
@@ -27,7 +42,7 @@ class _RegisterNewMemberState extends State {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(50.00),
+      padding: const EdgeInsets.all(50.00),
       child: Form(
         key: _formKey,
         child: Column(
@@ -44,14 +59,13 @@ class _RegisterNewMemberState extends State {
               onSaved: (var inValue) {
                 this._memberData.memberNo=inValue;
               },
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 label: Text("Member Number"),
                 hintText: "Enter Member Number",
               ),
             ),
             TextFormField(
               keyboardType: TextInputType.name,
-              // ignore: non_constant_identifier_names
               validator: (String? InitValue) {
                 if (InitValue!.length < 3) {
                   return("Name length must be greater than two!");
@@ -59,9 +73,10 @@ class _RegisterNewMemberState extends State {
                 return null;
               },
               onSaved: (String? InitValue){
+                assert(InitValue != null);
                 this._memberData.firstName=InitValue!;
             },
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "First Name",
                 hintText: "Enter First Name",
               ),
@@ -78,7 +93,7 @@ class _RegisterNewMemberState extends State {
               onSaved: (String? InitValue){
                 this._memberData.middleName=InitValue!;
               },
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "Middle Name",
                 hintText: "Enter Middle Name",
               ),
@@ -95,7 +110,7 @@ class _RegisterNewMemberState extends State {
               onSaved: (String? InitValue){
                 this._memberData.firstName=InitValue!;
               },
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "Last Name",
                 hintText: "Enter Last Name",
               ),
@@ -111,20 +126,55 @@ class _RegisterNewMemberState extends State {
               onSaved: (String? idValue){
                 this._memberData.idNo=idValue;
               },
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: "Id/Passport No:",
-                hintText: "Enter Natioonal Id/Passport No:",
+                hintText: "Enter National Id/Passport No:",
               ),
             ),
-            RaisedButton.icon(
+            TextFormField(
+              keyboardType: TextInputType.emailAddress,
+              validator: (var invalue){
+                if (invalue!.length<10){
+                  return(ErrorStrings.chequevalidateerror());
+                }
+                return null;
+              },
+              onSaved: (var invalue){
+                this._memberData.email=invalue;
+              },
+              decoration: const InputDecoration(
+                icon: Icon(Icons.email_outlined),
+                labelText: "E-mail",
+                hintText: "memberemail@example.com",
+              ),
+            ),
+            TextFormField(
+              keyboardType: TextInputType.datetime,
+              validator: (dynamic invalue){
+                if (invalue!.isEmpty){
+                  return (ErrorStrings.dateerror());
+                }
+                return null;
+              },
+              onSaved: (dynamic invalue){
+                this._memberData.JoinDate=invalue;
+              },
+              decoration: const InputDecoration(
+                icon: Icon(Icons.date_range_outlined),
+                labelText: "Registration Date",
+                hintText: "Enter Registration Date",
+              ),
+            ),
+            ElevatedButton.icon(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     _formKey.currentState!.save();
-                    print("You  have Succssefuly registerd member No: \n ${_memberData.memberNo}");
+                    print("You  have Successfully registered member No: \n ${_memberData.memberNo}");
+
                   }
                 },
-              icon: Icon(Icons.post_add_outlined),
-              label: Text("Register Member"),
+              icon: const Icon(Icons.post_add_outlined),
+              label: const Text("Register Member"),
                 ),
 
           ],

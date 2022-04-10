@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names, prefer_final_fields
+
 import 'package:flutter/material.dart';
 import 'package:saccoke/Members.Dart.dart';
 import 'package:saccoke/Loans.Dart.dart';
